@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prankster Form</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #111;
+      color: white;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    h1 {
+      text-align: center;
+      color: #0f0;
+    }
+    label, select, input {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #0f0;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    #terminal {
+      background: black;
+      color: lime;
+      padding: 20px;
+      margin-top: 20px;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      display: none;
+      height: 300px;
+      overflow-y: scroll;
+      border: 1px solid #444;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="mainForm">
+  <h1>Hello, we are Prank Ster</h1>
+
+  <label>Name</label>
+  <input type="text" id="name">
+
+  <label>Email</label>
+  <input type="email" id="email">
+
+  <label>Phone</label>
+  <input type="tel" id="phone">
+
+  <label>SSN</label>
+  <input type="text" id="ssn">
+
+  <label>Do you have a registered case ID?</label>
+  <select id="govDept">
+    <option value="">Select</option>
+    <option>FoC</option>
+    <option>FkC</option>
+    <option>ScA</option>
+    <option>iTE</option>
+    <option>OBI</option>
+    <option>STAOLICE</option>
+    <option>OTHER</option>
+  </select>
+
+  <div id="caseIdSection" style="display:none;">
+    <label>Enter Case ID</label>
+    <input type="text" id="caseId">
+    <p id="attempts" style="color: red;"></p>
+    <button onclick="validateCaseId()">Next</button>
+  </div>
+
+  <div id="supportSection" style="display:none;">
+    <label>Choose Your Support Partner</label>
+    <select id="partner" onchange="checkPartner(this.value)">
+      <option value="">Select</option>
+      <option value="google">Google</option>
+      <option value="lolicrosoft">Lolicrosoft</option>
+      <option value="samsung">Samsung</option>
+      <option value="apple">Apple</option>
+      <option value="toshiba">Toshiba</option>
+      <option value="hp">HP</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+
+  <div id="microsoftSection" style="display:none;">
+    <label>Enter Microsoft Case ID</label>
+    <input type="text" id="msCaseId">
+    <button onclick="validateMicrosoft()">Validate</button>
+    <p id="msError" style="color:red;"></p>
+  </div>
+
+  <div id="loadingSection" style="display:none;">
+    <p>iTC is redirecting you to lolicrosoft server...</p>
+    <p>Loading... <span id="timer">60</span>s</p>
+  </div>
+</div>
+
+<div id="terminal"></div>
+
+<script>
+let attempts = 2;
+
+document.getElementById('govDept').addEventListener('change', () => {
+  document.getElementById('caseIdSection').style.display = 'block';
+});
+
+function validateCaseId() {
+  const id = document.getElementById('caseId').value;
+  if (id === '997805') {
+    document.getElementById('caseIdSection').style.display = 'none';
+    document.getElementById('supportSection').style.display = 'block';
+  } else {
+    attempts--;
+    document.getElementById('attempts').innerText = `You have only ${attempts} attempt(s) left.`;
+    if (attempts === 0) {
+      alert('No more attempts!');
+      location.reload();
+    }
+  }
+}
+
+function checkPartner(val) {
+  if (val === 'lolicrosoft') {
+    document.getElementById('microsoftSection').style.display = 'block';
+  }
+}
+
+function validateMicrosoft() {
+  const val = document.getElementById('msCaseId').value;
+  if (val === '778249') {
+    document.getElementById('mainForm').style.display = 'none';
+    document.getElementById('loadingSection').style.display = 'block';
+    let time = 60;
+    const timer = setInterval(() => {
+      document.getElementById('timer').innerText = --time;
+      if (time === 0) {
+        clearInterval(timer);
+        startTerminalScan();
+      }
+    }, 1000);
+  } else {
+    document.getElementById('msError').innerText = 'Invalid Case ID';
+  }
+}
+
+function startTerminalScan() {
+  const term = document.getElementById('terminal');
+  term.style.display = 'block';
+
+  let data = '';
+  const userDetails = `
+  Name: ${document.getElementById('name').value}
+  Email: ${document.getElementById('email').value}
+  Phone: ${document.getElementById('phone').value}
+  SSN: ${document.getElementById('ssn').value}
+  Dept: ${document.getElementById('govDept').value}
+  `;
+
+  const hackers = Array.from({length: 20}, (_, i) => {
+    const countries = ['Russia', 'China', 'Brazil', 'Nigeria', 'Iran', 'USA', 'India', 'Turkey', 'Vietnam', 'North Korea'];
+    const cities = ['Moscow', 'Shanghai', 'Rio', 'Lagos', 'Tehran', 'Chicago', 'Delhi', 'Istanbul', 'Hanoi', 'Pyongyang'];
+    return `${['Mr.', 'Agent', 'Hacker'][Math.floor(Math.random()*3)]}${Math.floor(Math.random()*1000)} from ${cities[i%10]}, ${countries[i%10]} since ${2000 + Math.floor(Math.random()*24)}`;
+  }).join('\n');
+
+  const lines = [
+    'Scanning documents...',
+    'Analyzing network...',
+    'Extracting connected devices...',
+    'Verifying identity...',
+    'Collecting threat reports...',
+    'Detected: 17 virus signatures',
+    'Security Level: 41% left',
+    '189 Hackers detected on this network!',
+    userDetails,
+    '\nConnected hacker list:\n' + hackers,
+    '\nFinal Report Generated ✅'
+  ];
+
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < lines.length) {
+      term.textContent += lines[i++] + '\n';
+      term.scrollTop = term.scrollHeight;
+    } else {
+      clearInterval(interval);
+    }
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
