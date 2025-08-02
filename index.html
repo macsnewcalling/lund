@@ -7,20 +7,20 @@
   <style>
     body {
       font-family: 'Courier New', monospace;
-      background-color: #111;
-      color: white;
+      background-color: #ffffff;
+      color: #000;
       padding: 20px;
     }
     .container {
       max-width: 600px;
       margin: auto;
-      background: #222;
+      background: #f0f0f0;
       padding: 20px;
       border-radius: 10px;
     }
     h1 {
       text-align: center;
-      color: #0f0;
+      color: #007700;
     }
     label, select, input {
       display: block;
@@ -31,15 +31,16 @@
     }
     button {
       padding: 10px 20px;
-      background: #00ff00;
+      background: #00cc00;
       border: none;
       cursor: pointer;
       font-size: 16px;
       border-radius: 5px;
+      color: white;
     }
     #terminal {
       background: black;
-      color: lime;
+      color: white;
       padding: 20px;
       margin-top: 20px;
       font-family: 'Courier New', monospace;
@@ -104,13 +105,13 @@
   <div id="microsoftSection" style="display:none;">
     <label>Enter Microsoft Case ID</label>
     <input type="text" id="msCaseId">
-    <button onclick="validateMicrosoft()">Validate</button>
+    <button onclick="showStartScan()">Validate</button>
     <p id="msError" style="color:red;"></p>
   </div>
 
   <div id="loadingSection" style="display:none;">
     <p>FTC is redirecting you to Microsoft server...</p>
-    <p>Loading... <span id="timer">60</span>s</p>
+    <button onclick="startTerminalScan()">Start Scan</button>
   </div>
 </div>
 
@@ -144,26 +145,18 @@ function checkPartner(val) {
   }
 }
 
-function validateMicrosoft() {
+function showStartScan() {
   const val = document.getElementById('msCaseId').value.trim();
   if (val === '778249') {
     document.getElementById('microsoftSection').style.display = 'none';
     document.getElementById('loadingSection').style.display = 'block';
-    let time = 60;
-    const timer = setInterval(() => {
-      document.getElementById('timer').innerText = --time;
-      if (time === 0) {
-        clearInterval(timer);
-        document.getElementById('loadingSection').style.display = 'none';
-        startTerminalScan();
-      }
-    }, 1000);
   } else {
     document.getElementById('msError').innerText = 'Invalid Case ID';
   }
 }
 
 function startTerminalScan() {
+  document.getElementById('loadingSection').style.display = 'none';
   const term = document.getElementById('terminal');
   term.style.display = 'block';
 
