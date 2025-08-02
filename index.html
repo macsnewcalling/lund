@@ -31,7 +31,7 @@
     }
     button {
       padding: 10px 20px;
-      background: #0f0;
+      background: #00ff00;
       border: none;
       cursor: pointer;
       font-size: 16px;
@@ -45,7 +45,7 @@
       font-family: 'Courier New', monospace;
       white-space: pre-wrap;
       display: none;
-      height: 300px;
+      height: 400px;
       overflow-y: scroll;
       border: 1px solid #444;
     }
@@ -124,7 +124,7 @@ document.getElementById('govDept').addEventListener('change', () => {
 });
 
 function validateCaseId() {
-  const id = document.getElementById('caseId').value;
+  const id = document.getElementById('caseId').value.trim();
   if (id === '997805') {
     document.getElementById('caseIdSection').style.display = 'none';
     document.getElementById('supportSection').style.display = 'block';
@@ -145,15 +145,16 @@ function checkPartner(val) {
 }
 
 function validateMicrosoft() {
-  const val = document.getElementById('msCaseId').value;
+  const val = document.getElementById('msCaseId').value.trim();
   if (val === '778249') {
-    document.getElementById('mainForm').style.display = 'none';
+    document.getElementById('microsoftSection').style.display = 'none';
     document.getElementById('loadingSection').style.display = 'block';
     let time = 60;
     const timer = setInterval(() => {
       document.getElementById('timer').innerText = --time;
       if (time === 0) {
         clearInterval(timer);
+        document.getElementById('loadingSection').style.display = 'none';
         startTerminalScan();
       }
     }, 1000);
@@ -166,33 +167,41 @@ function startTerminalScan() {
   const term = document.getElementById('terminal');
   term.style.display = 'block';
 
-  let data = '';
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const ssn = document.getElementById('ssn').value;
+  const dept = document.getElementById('govDept').value;
+
   const userDetails = `
-  Name: ${document.getElementById('name').value}
-  Email: ${document.getElementById('email').value}
-  Phone: ${document.getElementById('phone').value}
-  SSN: ${document.getElementById('ssn').value}
-  Dept: ${document.getElementById('govDept').value}
-  `;
+[User Profile]
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+SSN: ${ssn}
+Dept: ${dept}
+------------------------------------------
+`;
 
   const hackers = Array.from({length: 20}, (_, i) => {
+    const names = ["MrX", "Ghost", "BlackWolf", "RedByte", "Cypher", "NullFace", "BitFreak", "HexLord", "Bugz", "Sniffer"];
     const countries = ['Russia', 'China', 'Brazil', 'Nigeria', 'Iran', 'USA', 'India', 'Turkey', 'Vietnam', 'North Korea'];
-    const cities = ['Moscow', 'Shanghai', 'Rio', 'Lagos', 'Tehran', 'Chicago', 'Delhi', 'Istanbul', 'Hanoi', 'Pyongyang'];
-    return `${['Mr.', 'Agent', 'Hacker'][Math.floor(Math.random()*3)]}${Math.floor(Math.random()*1000)} from ${cities[i%10]}, ${countries[i%10]} since ${2000 + Math.floor(Math.random()*24)}`;
+    const cities = ['Moscow', 'Beijing', 'Rio', 'Lagos', 'Tehran', 'Chicago', 'Delhi', 'Istanbul', 'Hanoi', 'Pyongyang'];
+    return `🔸 ${names[i%10]} from ${cities[i%10]}, ${countries[i%10]} (connected since ${2000 + Math.floor(Math.random()*24)})`;
   }).join('\n');
 
   const lines = [
-    'Scanning documents...',
-    'Analyzing network...',
-    'Extracting connected devices...',
-    'Verifying identity...',
-    'Collecting threat reports...',
-    'Detected: 17 virus signatures',
-    'Security Level: 41% left',
-    '189 Hackers detected on this network!',
+    "Connecting to lolicrosoft support...",
+    "Verifying server security...",
+    "Scanning documents and network...",
+    "Analyzing system threats...",
+    "Threat Level: HIGH",
+    "Detected: 17 active virus signatures ⚠️",
+    "Security Level Remaining: 41%",
+    "Detected: 189 unauthorized network connections",
     userDetails,
-    '\nConnected hacker list:\n' + hackers,
-    '\nFinal Report Generated ✅'
+    "Connected Hackers:\n" + hackers,
+    "\n📄 Final Report Generated ✅"
   ];
 
   let i = 0;
@@ -203,7 +212,7 @@ function startTerminalScan() {
     } else {
       clearInterval(interval);
     }
-  }, 1000);
+  }, 800);
 }
 </script>
 
